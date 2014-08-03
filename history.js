@@ -136,7 +136,8 @@
          * @param {String} [type]
          * @param {String} [basepath]
          */
-        "redirect": function(type, basepath) {
+        "redirect": function(type, basepath, skipRewrite) {
+            skipRewrite = typeof skipRewrite === undefined ? false : skipRewrite
             historyObject['setup'](basepath, type);
             basepath = settings["basepath"];
             if (global.top == global.self) {
@@ -147,7 +148,7 @@
                     if (relative != basepath && (new RegExp("^" + basepath + "$", "i")).test(path)) {
                         windowLocation.replace(relative);
                     }
-                } else if (path != basepath) {
+                } else if (path != basepath && !skipRewrite) {
                     path = path.replace(/([^\/])\?/, '$1/?');
                     if ((new RegExp("^" + basepath, "i")).test(path)) {
                         windowLocation.replace(basepath + '#' + path.
